@@ -1,0 +1,18 @@
+#this should eventually be replaced in main server config file using a Directory block for performance reasons
+
+
+
+RewriteEngine On    # Turn on the rewriting engine
+
+#this file translates from this url:
+#http://localhost/projectname/api.php?name=$\[******]\$
+#to this url:
+#http://localhost/projectname/api/$\[******]\$
+# where "$\[******]\$" is the variable/object being passed
+
+RewriteRule ^api/([0-9a-zA-Z_-]*)$ api.php?command=$1 [NC,L] #$1 is the variable
+
+#The [L] flag causes mod_rewrite to stop processing the rule set. 
+#In most contexts, this means that if the rule matches, no further rules will be processed. 
+#Use of the [NC] flag causes the RewriteRule to be matched in a case-insensitive manner. 
+#That is, it doesn't care whether letters appear as upper-case or lower-case in the matched URI. 
