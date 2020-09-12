@@ -19,7 +19,7 @@ class Read
     public function readAllLights()
     {
 
-        // Blog light query
+        //light query
         $result = $this->light->read();
         // Get row count
         $num = $result->rowCount();
@@ -60,7 +60,7 @@ class Read
     }
     public function readOneLightArray($light_array_num)
     {
-        // Blog light query
+        //light query
         $result = $this->light->read_single_light_array($light_array_num);
         // Get row count
         $num = $result->rowCount();

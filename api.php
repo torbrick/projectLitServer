@@ -2,8 +2,8 @@
 header("Access-Control-Allow-Orgin: *");
 header("Access-Control-Allow-Methods: *");
 header("Content-Type:application/json");
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 include_once 'database.php';
-include_once 'api\light\Read.php';
 #require "data.php";
 
 // Instantiate DB & connect
@@ -16,53 +16,99 @@ $method = $_SERVER['REQUEST_METHOD'];
 handleVerb($method);
 
 
-function response($status,$status_message,$data)
+function response($status, $status_message, $data)
 {
-	header("HTTP/1.1 ".$status);
-	
-	$response['status']=$status;
-	$response['status_message']=$status_message;
-	$response['data']=$data;
-	
+	header("HTTP/1.1 " . $status);
+
+	$response['status'] = $status;
+	$response['status_message'] = $status_message;
+	$response['data'] = $data;
+
 	$json_response = json_encode($response);
 	echo $json_response;
 }
-
-function handleVerb($verb) {
-	switch ($verb) {
-		case 'GET':
-			
-			$data['command']=$_GET['command'];
-			if($data['command'] == "all"){
-				//include_once 'api/light/read_all.php';
-				$readObj = new Read();
-				$readObj->readAllLights();
+//@param $command is uppercase
+function handleGetVerb($command)
+{
+	include_once 'api\light\Read.php';
+	$readObj = new Read();
+	switch ($command) {
+		case 'ALL':
+			$readObj->readAllLights();
 			break;
-			}elseif($data['command'] == "array1"){
-				$readObj = new Read();
-				$readObj->readOneLightArray(1);
-			break;
-			}
-			$data['verb sent'] = "GET";
-			return response(200,"Request Found",$data);
-			break;
-		case 'POST':
-			$data['command']=$_GET['command'];
-			$data['verb sent'] = "POST";
-			return response(200,"Request Found",$data);
-			break;
-		case 'DELETE':
-			$data['command']=$_GET['command'];
-			$data['verb sent'] = "DELETE";
-			return response(200,"Request Found",$data);
-			break;
-		case 'PUT':
-			$data['command']=$_GET['command'];
-			$data['verb sent'] = "PUT";
-			return response(200,"Request Found",$data);
+		case 'ARRAY1':
+			$readObj->readOneLightArray(1);
 			break;
 		default:
-			return response(400,"Invalid Request!",NULL);
+			return response(400, "Invalid Request! GET command: \"$command\" not found.", NULL);
+			break;
+	}
+}
+
+//@param $command is uppercase
+function handlePutVerb($command)
+{
+include_once 'api\light\Write.php';
+	$data = json_decode(file_get_contents("php://input"));
+	$light_array_num = $data->array;
+	$writeObj = new Write();
+	switch ($command) {
+		case 'ALLON':
+			if($writeObj->turnOnLightArray($light_array_num)){
+				echo json_encode(
+					array('message' => "lights for array: $light_array_num on")
+				);
+			}else{
+				echo json_encode(
+					array('message' => "error turning lights on for array: $light_array_num")
+				);
+			}
+			break;
+		case 'ALLOFF':
+			if($writeObj->turnOffLightArray($light_array_num)){
+				echo json_encode(
+					array('message' => "lights for array: $light_array_num off")
+				);
+			}else{
+				echo json_encode(
+					array('message' => "error turning lights on for array: $light_array_num")
+				);
+			}
+			break;
+		case 'TURNON':
+			response(200, "Request Found", $command);
+			break;
+		case 'TURNOFF':
+			response(200, "Request Found", $command);
+			break;
+		default:
+			return response(400, "Invalid Request! PUT command: \"$command\" not found.", NULL);
+			break;
+	}
+}
+
+function handleVerb($verb)
+{
+	$command = strtoupper($_GET['command']);
+	switch ($verb) {
+		case 'GET':
+			handleGetVerb($command);
+			break;
+		case 'POST':
+			$data['command'] = $command;
+			$data['verb sent'] = "POST";
+			return response(200, "Request Found", $data);
+			break;
+		case 'DELETE':
+			$data['command'] = $_GET['command'];
+			$data['verb sent'] = "DELETE";
+			return response(200, "Request Found", $data);
+			break;
+		case 'PUT':
+			handlePutVerb($command);
+			break;
+		default:
+			return response(400, "Invalid Request!", NULL);
 			break;
 	}
 }
