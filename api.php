@@ -27,6 +27,9 @@ function response($status, $status_message, $data)
 	$json_response = json_encode($response);
 	echo $json_response;
 }
+/*
+** GET COMMANDS
+*/
 //@param $command is uppercase
 function handleGetVerb($command)
 {
@@ -44,13 +47,15 @@ function handleGetVerb($command)
 			break;
 	}
 }
-
+/*
+** PUT COMMANDS
+*/
 //@param $command is uppercase
 function handlePutVerb($command)
 {
 include_once 'api\light\Write.php';
 	$data = json_decode(file_get_contents("php://input"));
-	$light_array_num = $data->array;
+	$light_array_num = $data->array;	
 	$writeObj = new Write();
 	switch ($command) {
 		case 'ALLON':
@@ -60,7 +65,7 @@ include_once 'api\light\Write.php';
 				);
 			}else{
 				echo json_encode(
-					array('message' => "error turning lights on for array: $light_array_num")
+					array('message' => "error turning lights on for array: $light_array_num, no rows matched")
 				);
 			}
 			break;
@@ -71,14 +76,16 @@ include_once 'api\light\Write.php';
 				);
 			}else{
 				echo json_encode(
-					array('message' => "error turning lights on for array: $light_array_num")
+					array('message' => "error turning lights off for array: $light_array_num, no rows matched")
 				);
 			}
 			break;
 		case 'TURNON':
+			$light_num = $data->light_number;
 			response(200, "Request Found", $command);
 			break;
 		case 'TURNOFF':
+			$light_num = $data->light_number;
 			response(200, "Request Found", $command);
 			break;
 		default:
