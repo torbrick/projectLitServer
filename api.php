@@ -81,12 +81,30 @@ include_once 'api\light\Write.php';
 			}
 			break;
 		case 'TURNON':
-			$light_num = $data->light_number;
-			response(200, "Request Found", $command);
+			$light_num = $data->lightNum;
+			if($writeObj->turnOnSingleLight($light_array_num, $light_num)){
+				echo json_encode(
+					array('message' => "light $light_num for array: $light_array_num on")
+				);
+
+			}else{
+				echo json_encode(
+					array('message' => "error turning light $light_num on for array: $light_array_num, no rows matched")
+				);
+			}			
 			break;
 		case 'TURNOFF':
-			$light_num = $data->light_number;
-			response(200, "Request Found", $command);
+			$light_num = $data->lightNum;
+			if($writeObj->turnOffSingleLight($light_array_num, $light_num)){
+				echo json_encode(
+					array('message' => "light $light_num for array: $light_array_num off")
+				);
+
+			}else{
+				echo json_encode(
+					array('message' => "error turning light $light_num off for array: $light_array_num, no rows matched")
+				);
+			}			
 			break;
 		default:
 			return response(400, "Invalid Request! PUT command: \"$command\" not found.", NULL);

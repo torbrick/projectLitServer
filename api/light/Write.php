@@ -17,6 +17,7 @@ class Write
         $this->light = new Light($this->database);
     }
 
+    //I couldn't get error handling to work, this is as good as it gets right now
     public function rowCountForLightArray($light_array_num){
         $countMatchQuery = 'SELECT *
                             FROM lit_schema.lights
@@ -37,14 +38,7 @@ class Write
                     state = :state
                 WHERE
                     light_strip_owner = :owner';
-        // $countMatchQuery = 'SELECT *
-        //                     FROM lit_schema.lights
-        //                     WHERE
-        //                     light_strip_owner = :owner';
-        // $countMatchStatement = $this->database->prepare($countMatchQuery);
-        // // Bind Data
-        // $countMatchStatement->bindParam(':owner', $light_array_num);
-        // $countMatchStatement->execute();
+      
         if($this->rowCountForLightArray($light_array_num) < 1){
             //no rows matched query
             return false;
@@ -96,20 +90,21 @@ class Write
         // return true;
     }
 
-    public function turnOnSingleLight($light_num)
+    public function turnOnSingleLight($light_array_num, $light_num)
     {
         $lightState = Write::LIGHT_STATE_ON;
         $query = 'UPDATE lights 
                 SET 
                     state = :state
                 WHERE
-                    light_id = :lightNum';
+                    light_id = :lightNum
+                    AND light_strip_owner = :owner';
 
         $statment = $this->database->prepare($query);
         // Bind Data
         $statment->bindParam(':state', $lightState);
         $statment->bindParam(':lightNum', $light_num);
-
+        $statment->bindParam(':owner', $light_array_num);
         if ($statment->execute()) {
             return true;
         } else {
@@ -118,6 +113,33 @@ class Write
             return false;
         }
     }
+
+    public function turnOffSingleLight($light_array_num, $light_num)
+    {
+        $lightState = Write::LIGHT_STATE_OFF;
+        $query = 'UPDATE lights 
+                SET 
+                    state = :state
+                WHERE
+                    light_id = :lightNum
+                    AND light_strip_owner = :owner';
+
+        $statment = $this->database->prepare($query);
+        // Bind Data
+        $statment->bindParam(':state', $lightState);
+        $statment->bindParam(':lightNum', $light_num);
+        $statment->bindParam(':owner', $light_array_num);
+        if ($statment->execute()) {
+            return true;
+        } else {
+            // Print error if something goes wrong
+            printf("Error: %s.\n", $statment->error);
+            return false;
+        }
+    }
+
+
+
 
     public function turnOffLightArray($light_array_num)
     {
