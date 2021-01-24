@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "1dc18414-1580-4a28-85cc-98beba3b7d17",
+		"name": "ProjectLit API testing",
+		"description": "testing of the restful API of ProjectLit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "One Light On array 1",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true,
+					"content-type": true,
+					"user-agent": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"array\" : 1,\r\n    \"lightNum\" : 2\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost/ProjectLitServer/api/turnon",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjectLitServer",
+						"api",
+						"turnon"
+					]
+				},
+				"description": "put request to turn all ligts of provided array on"
+			},
+			"response": []
+		},
+		{
+			"name": "API general request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/ProjectLitServer/api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjectLitServer",
+						"api",
+						""
+					]
+				},
+				"description": "this post request just echoes an aknowledgement"
+			},
+			"response": []
+		},
+		{
+			"name": "All Light Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/ProjectLitServer/api/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjectLitServer",
+						"api",
+						"all"
+					]
+				},
+				"description": "returns light data for all arrays in servers light database"
+			},
+			"response": []
+		},
+		{
+			"name": "get array1 light data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/ProjectLitServer/api/array1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjectLitServer",
+						"api",
+						"array1"
+					]
+				},
+				"description": "it's on the tin"
+			},
+			"response": []
+		},
+		{
+			"name": "All Off array 1",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"user-agent": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true,
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"array\" : 1\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost/ProjectLitServer/api/alloff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjectLitServer",
+						"api",
+						"alloff"
+					]
+				},
+				"description": "turns all lights of array 1 off"
+			},
+			"response": []
+		},
+		{
+			"name": "All On array 1",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"user-agent": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true,
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"array\": 1\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost/ProjectLitServer/api/allon",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjectLitServer",
+						"api",
+						"allon"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One Light Off array 1",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true,
+					"content-type": true,
+					"user-agent": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"array\" : 1,\r\n    \"lightNum\" : 2\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost/ProjectLitServer/api/turnoff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjectLitServer",
+						"api",
+						"turnoff"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
