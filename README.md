@@ -19,6 +19,8 @@ PUT commands:
     TURNOFF:
         turns off a light in array number given in body "array": #,
         "lightNum": #
+
+
 Basic setup of XAMPP for MySQL and APACHE server shown in the first five minutes of this video:
 https://youtu.be/OEWXbpUMODk
 
